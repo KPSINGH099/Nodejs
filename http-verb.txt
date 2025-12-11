@@ -1,0 +1,92 @@
+ist of Common HTTP Verbs + Meaning
+
+Below are the verbs you must know as a backend developer:
+
+1️⃣ GET
+Use: Retrieve data
+
+Should NOT modify server state
+
+Should be safe, idempotent, cacheable
+
+Example:
+
+GET /users
+GET /products/10
+
+2️⃣ POST
+Use: Create data or perform non-idempotent actions
+
+Used for login
+
+Used to submit forms
+
+Body is allowed
+
+Example:
+
+POST /users
+POST /login
+
+3️⃣ PUT
+Use: Update entire resource
+
+Idempotent → calling it 1 time or 10 times results in same outcome.
+
+Example:
+
+PUT /users/5     // replace user 5 completely
+
+4️⃣ PATCH
+Use: Partially update a resource
+
+Not necessarily idempotent.
+
+Example:
+
+PATCH /users/5   // update only name
+
+5️⃣ DELETE
+Use: Remove a resource
+
+Idempotent → deleting 10 times has same result.
+
+Example:
+
+DELETE /users/5
+
+6️⃣ OPTIONS
+Use: Check which HTTP methods a route supports
+
+Often used automatically for CORS.
+
+Example:
+
+OPTIONS /users
+
+7️⃣ HEAD
+Use: Same as GET but without the response body
+
+Used by browsers and crawlers to check metadata.
+
+Example:
+
+HEAD /download/file
+
+🎯 Why HTTP Verbs Are Important in REST APIs
+
+They allow you to build clean, meaningful routes:
+
+HTTP Verb	Path	Meaning
+GET	/users	fetch all users
+POST	/users	create a user
+GET	/users/10	get user 10
+PUT	/users/10	replace user
+PATCH	/users/10	update user
+DELETE	/users/10	delete user
+
+This keeps your API predictable, scalable, and standardized.
+
+🎉 Interview One-Liner
+
+HTTP verbs define the action to be performed on a resource. They make REST APIs meaningful, predictable, and easy to maintain.

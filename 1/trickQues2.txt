@@ -1,0 +1,81 @@
+Difference Between router.use() and router.get()
+1️⃣ Purpose
+router.use()
+
+Used to apply middleware.
+
+Runs for all HTTP methods (GET, POST, PUT, DELETE, etc.)
+
+Runs for all routes that match the path prefix.
+
+Example:
+
+router.use("/admin", (req, res, next) => {
+  console.log("Middleware for all /admin routes");
+  next();
+});
+
+
+This will run for:
+
+GET /admin
+
+POST /admin/login
+
+PUT /admin/settings
+
+DELETE /admin/user
+
+router.get()
+
+Used to handle GET requests only.
+
+Not a middleware for other methods.
+
+Example:
+
+router.get("/admin", (req, res) => {
+  res.send("Admin GET route");
+});
+
+
+Only runs for:
+
+GET /admin
+❌ Not for POST /admin
+❌ Not for PUT /admin
+
+✅ 2️⃣ Matching Behavior
+router.use("/path")
+
+Matches any route starting with /path.
+
+Example:
+
+router.use("/user", middleware);
+
+
+This matches:
+
+/user
+/user/profile
+/user/settings/edit
+
+router.get("/path")
+
+Matches route exactly.
+
+Example:
+
+router.get("/user", handler);
+
+
+This matches:
+
+/user
+
+
+Not:
+
+/user/profile
+/user/edit

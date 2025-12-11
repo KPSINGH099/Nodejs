@@ -1,0 +1,162 @@
+Why login must use POST
+1. Credentials must not appear in URL
+
+GET sends data in the URL query string:
+
+/login?username=john&password=12345
+
+
+❌ Password becomes visible in:
+
+Browser history
+
+Server logs
+
+Network logs
+
+Bookmark
+
+Proxy logs
+
+✔ POST hides the credentials
+
+POST sends the data in the request body, not the URL.
+
+POST /login
+{
+  "username": "john",
+  "password": "12345"
+}
+
+
+This is much safer (still use HTTPS).
+
+✅ 2. GET is meant for retrieving data
+
+Login is not retrieving data — it is an action that changes state:
+
+Creates a session/token
+
+Validates password
+
+Logs security event
+
+So GET is semantically wrong.
+
+☑️ 3. POST supports larger payload & JSON
+
+GET has size limits.
+POST is designed for form submissions and JSON bodies.
+
+👍 Final Answer: Login should use → POST
+Correct route
+router.post("/login", (req, res) => {
+  const { email, password } = req.body;
+  res.send("Logged in successfully");
+});
+
+
+If you want, I can also give:
+
+Login + JWT example
+
+Login + session example
+
+Login best practices (rate limiting, bcrypt hashing)
+
+Just tell me!
+
+You said:
+but post creates data here we are not creating data
+ChatGPT said:
+
+Great question — this is a very common confusion.
+
+You’re right that POST is often used to “create data”, but in REST POST actually means something broader:
+
+✅ POST = perform an operation that cannot be expressed as GET/PUT/DELETE
+
+Login is not retrieving data, not updating data, not deleting data.
+
+Login is an action (validate credentials + generate session/JWT).
+REST uses POST for actions.
+
+🔥 Important: LOGIN is NOT a data CRUD operation
+
+Logging in does this:
+
+Check password
+
+Generate JWT/session
+
+Set cookies
+
+Update last login timestamp
+
+Possibly invalidate old tokens
+
+This is an operation, not a resource creation.
+
+🚫 Why NOT GET?
+GET must NOT:
+
+Change server state
+
+Modify session
+
+Generate tokens
+
+Write logs
+
+Create cookies
+
+But login does all of these.
+
+And GET puts credentials in the URL:
+
+/login?user=abc&pass=123
+
+
+❌ Leaks passwords in browser history, server logs, proxies.
+
+✔ So even though POST can create resources…
+…it is also used for non-idempotent operations, including:
+
+Login
+
+Logout
+
+Search with filters
+
+Complex forms
+
+Payment initiation
+
+OTP verification
+
+Upload
+
+Reset password
+
+Session refresh
+
+These are not CRUD but still use POST.
+
+📌 REST Meaning of POST
+
+According to HTTP spec:
+
+POST is used for processing, submitting, or triggering operations, not just creating.
+
+So login fits perfectly.
+
+✅ Final Answer
+Login should use: POST
+
+because it is an operation that changes authentication state and must not expose credentials.
+
+If you want, I can show:
+
+🔹 /login (POST) with JWT generation
+🔹 /logout (POST) with token blacklist
+🔹 Best REST structure for authentication

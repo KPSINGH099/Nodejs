@@ -1,0 +1,88 @@
+Express processes middleware and routes top → bottom, exactly in the order they appear.
+
+
+9. Why must GET routes never perform login or modify server state?
+
+(GET is idempotent & cached → unsafe)
+ChatGPT said:
+
+Here is the cleanest, interview-ready explanation of why GET must never be used for login or anything that changes server state:
+
+✅ 1. GET is idempotent
+Meaning:
+
+Doing the same GET request 1 time or 100 times must produce the same result and no side effects.
+
+But login does:
+
+Creates a session token
+
+Updates last-login time
+
+Writes logs
+
+Invalidates previous sessions
+
+So login changes state → violates idempotency.
+
+✅ 2. GET requests can be cached
+
+Browsers, proxies, and CDNs cache GET responses.
+
+If login was done using GET:
+
+A browser might cache the login response
+
+Proxy/CDN might serve a cached authenticated response
+
+Someone may log in without credentials due to caching 😱
+
+Very dangerous.
+
+✅ 3. GET puts data in the URL → insecure
+
+If login parameters were sent like this:
+
+/login?user=kishan&password=12345
+
+
+Password is exposed in:
+
+Browser history
+
+Proxy logs
+
+Server logs
+
+Analytics tools
+
+Bookmarks
+
+Total security leak.
+
+✅ 4. GET can be triggered by accident
+
+Examples:
+
+By clicking a link
+
+By browser prefetch
+
+By bots crawling your site
+
+By copy-pasting URLs
+
+Imagine login being triggered accidentally just by opening a URL → not acceptable.
+
+✅ 5. GET is intended ONLY for retrieval
+
+By HTTP standards:
+
+GET is for retrieving data only
+Not for performing actions
+
+Login is an action, not retrieval.
+
+🎯 Interview One-Line Answer
+
+GET must never perform login or modify server state because GET is idempotent, cacheable, and exposes parameters in the URL. Using GET for login is insecure and violates HTTP semantics.

@@ -90,3 +90,107 @@ This keeps your API predictable, scalable, and standardized.
 🎉 Interview One-Liner
 
 HTTP verbs define the action to be performed on a resource. They make REST APIs meaningful, predictable, and easy to maintain.
+
+
+************************************************************************
+1. What are HTTP verbs, and why are they used?
+
+They are methods (GET, POST, PUT…) that tell the server what operation the client wants to perform on a resource.
+***********************************************************************
+
+. What is idempotent in HTTP?
+
+An operation giving the same result no matter how many times it’s repeated.
+
+Idempotent methods: GET, PUT, DELETE, HEAD, OPTIONS
+Not idempotent: POST
+**********************************************************************
+7. Safe vs unsafe HTTP methods?
+
+Safe: GET, HEAD → don’t modify resources
+
+Unsafe: POST, PUT, DELETE, PATCH → change server state
+
+**********************************************************
+8. What are HTTP status codes?
+
+Codes representing the result of a request, grouped into:
+
+1xx → Info
+
+2xx → Success
+
+3xx → Redirect
+
+4xx → Client error
+
+5xx → Server error
+
+*********************************************. When to use 200 vs 201 vs 204?
+
+200 OK: Successful GET
+
+201 Created: New resource created
+
+204 No Content: Success but no response body
+****************************************************
+10. What is OPTIONS used for?
+
+To check allowed HTTP methods for a route; used in CORS preflight.
+
+11. What is HEAD used for?
+
+Same as GET but returns headers only — no body. Used for cache validation.
+
+12. What is a REST API?
+
+An API following REST constraints: stateless, resource-based, uniform interface.
+
+13. REST vs RESTful?
+
+REST = theory/architecture
+RESTful = real implementation following REST constraints
+
+14. What does “stateless” mean?
+
+Server does not store session data. Each request carries all required info (token, auth).
+
+15. Resource naming rules?
+
+Use plural nouns:
+/users, /orders/123/items
+
+Avoid verbs in URL:
+❌ /createUser
+✔ /users
+
+16. Why avoid verbs in URL paths?
+
+HTTP verbs already indicate actions.
+URL should represent nouns/resources, not actions.
+
+************************************************************************
+
+
+. What is global middleware?
+
+Applied at app-level:
+
+app.use(logger)
+
+
+Runs for every incoming request.
+
+40. What is router-level middleware?
+router.use(authMiddleware);
+
+
+Runs only inside that router.
+
+
+. How to apply middleware on specific routes?
+router.get("/profile", auth, handler);
+
+Why do POST/PUT/PATCH require CSRF protection?
+
+Because these change server state and can be triggered by malicious sites.

@@ -86,3 +86,11 @@ Login is an action, not retrieval.
 🎯 Interview One-Line Answer
 
 GET must never perform login or modify server state because GET is idempotent, cacheable, and exposes parameters in the URL. Using GET for login is insecure and violates HTTP semantics.
+
+
+
+**************************************************************************
+26. What happens if next("error") is called?
+
+It skips normal handlers and calls the error-handling middleware.
+****************************************************************************

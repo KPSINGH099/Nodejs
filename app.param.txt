@@ -1,0 +1,86 @@
+Example: Using app.param() to Pre-load Data for a Route
+Use-case
+
+You want to load a user from the database whenever the route has :id.
+
+📌 Example Code
+const express = require("express");
+const app = express();
+
+// app.param middleware
+app.param("id", (req, res, next, idValue) => {
+  console.log("Running param middleware for id =", idValue);
+
+  // Example: fake DB lookup
+  const user = { id: idValue, name: "Kishan Singh" };
+
+  // Attach found user to request object
+  req.user = user;
+
+  next(); // continue to the actual route
+});
+
+// Route that uses :id
+app.get("/users/:id", (req, res) => {
+  res.send({
+    message: "User fetched successfully",
+    user: req.user,        // coming from app.param middleware
+  });
+});
+
+app.listen(3000, () => console.log("Server running"));
+
+✅ What Happens Internally?
+When you visit:
+GET /users/50
+
+
+Execution order:
+
+Express sees :id in route
+
+Runs app.param("id") middleware
+
+Loads/validates data
+
+Attaches it to req
+
+Calls next()
+
+Proceeds to /users/:id GET handler
+
+🎯 Output Example:
+{
+  "message": "User fetched successfully",
+  "user": {
+    "id": "50",
+    "name": "Kishan Singh"
+  }
+}
+
+🎓 Interview-Ready One-Line Answer
+
+app.param() is used to run middleware whenever a specific route parameter is present. It is commonly used for validation or preloading data like user details based on the ID.
+
+
+
+
+33. How does Express handle 404?
+
+If no route matches, a final middleware is executed:
+
+app.use((req, res) => res.status(404).send("Not Found"));
+
+
+36. Difference between normal & error middleware?
+
+Normal:
+
+(req, res, next)
+
+
+Error:
+
+(err, req, res, next)
+
+

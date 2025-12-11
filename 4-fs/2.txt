@@ -1,0 +1,84 @@
+⭐ 1. Path Parameters (Route Params)
+
+Used to capture dynamic values directly in the URL.
+
+📌 Example
+
+URL → /users/15
+
+Here 15 is a path param.
+
+✔ Code:
+app.get("/users/:id", (req, res) => {
+  const userId = req.params.id;
+  res.send(`User ID is: ${userId}`);
+});
+
+📌 Access:
+req.params.id
+
+✔ Multiple params:
+app.get("/orders/:orderId/items/:itemId", (req, res) => {
+  res.send({
+    orderId: req.params.orderId,
+    itemId: req.params.itemId
+  });
+});
+
+⭐ 2. Query Parameters
+
+Used for filters, sorting, pagination, optional values.
+
+📌 Example
+
+URL → /search?keyword=nodejs&page=2
+
+✔ Code:
+app.get("/search", (req, res) => {
+  const { keyword, page } = req.query;
+
+  res.send({
+    keyword,
+    page
+  });
+});
+
+📌 Access:
+req.query.keyword
+req.query.page
+
+✔ Multiple query params allowed:
+/products?category=mobile&brand=apple&sort=asc
+
+🔥 Path Param vs Query Param (Difference)
+Category	Path Param	Query Param
+Purpose	Identify a specific resource	Filter/sort/search
+Mandatory?	Usually yes	Optional
+Appears in URL	/users/10	/users?active=true
+Access using	req.params	req.query
+⭐ Combined Example (Both Together)
+GET /users/20/orders?status=pending&limit=5
+
+app.get("/users/:id/orders", (req, res) => {
+  const userId = req.params.id;
+  const { status, limit } = req.query;
+
+  res.send({
+    userId,
+    status,
+    limit
+  });
+});
+
+⭐ Best Use Cases
+Use case	Type
+/products/123	Path Param
+/products?category=shoes	Query Param
+/users/10/posts?limit=20&sort=desc	Both
+
+If you want, I can also give:
+
+✅ Validation examples
+✅ Optional params
+✅ Regex params (e.g., numeric only)
+✅ Query + body + params together

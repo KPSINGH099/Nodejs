@@ -1,0 +1,45 @@
+Check each case:
+1️⃣ Using fs.readFile (callback version)
+fs.readFile(filePath, "utf8", (err, data) => { ... });
+
+✔ Asynchronous
+✔ Non-blocking
+
+Node continues executing other code while reading the file.
+
+2️⃣ Using fs.promises.readFile (async/await)
+const data = await fs.promises.readFile(filePath, "utf8");
+
+✔ Asynchronous
+✔ Non-blocking
+
+Even with await, Node does not block the event loop.
+
+3️⃣ Using Synchronous version fs.readFileSync
+const data = fs.readFileSync(filePath, "utf8");
+
+❌ Synchronous
+❌ Blocking
+
+This blocks the entire event loop until the file is fully read.
+
+🔥 Clear Summary
+Function	Blocking?	Non-blocking?
+fs.readFile	❌	✔
+fs.promises.readFile	❌	✔
+fs.readFileSync	✔	❌
+fs.writeFile	❌	✔
+fs.promises.writeFile	❌	✔
+fs.writeFileSync	✔	❌
+fs.readdir	❌	✔
+fs.readdirSync	✔	❌
+🧠 Best practice
+
+👉 Always use async (non-blocking) functions in production servers.
+👉 Use sync functions only in scripts or startup config.
+
+If you want, I can also explain:
+
+✅ How Node.js handles async under the hood (event loop)
+✅ What is threadpool
+✅ How async still uses threads internally

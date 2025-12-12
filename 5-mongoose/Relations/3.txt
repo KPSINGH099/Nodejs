@@ -1,0 +1,208 @@
+Below is a complete collection of code examples for ALL major types of relationships in MongoDB using Mongoose.
+Each relation comes with:
+
+✔ Real-life example
+✔ Mongoose schema
+✔ Query example
+✔ populate if applicable
+
+This is a master reference you can save.
+
+🧩 1. ONE-TO-ONE (1:1)
+Example: User ↔ Profile
+Schemas
+// Profile.js
+const mongoose = require("mongoose");
+
+const profileSchema = new mongoose.Schema({
+  age: Number,
+  gender: String,
+  address: String
+});
+
+module.exports = mongoose.model("Profile", profileSchema);
+
+// User.js
+const mongoose = require("mongoose");
+
+const userSchema = new mongoose.Schema({
+  name: String,
+  profile: { type: mongoose.Schema.Types.ObjectId, ref: "Profile" }
+});
+
+module.exports = mongoose.model("User", userSchema);
+
+Query
+User.findById(id).populate("profile");
+
+🧩 2. ONE-TO-MANY (1:M)
+Example: Author ↔ Books
+Schemas
+// Author.js
+const authorSchema = new mongoose.Schema({
+  name: String
+});
+
+// Book.js
+const bookSchema = new mongoose.Schema({
+  title: String,
+  author: { type: mongoose.Schema.Types.ObjectId, ref: "Author" }
+});
+
+Query
+Book.find().populate("author");
+
+🧩 3. MANY-TO-ONE (M:1)
+
+Reverse of above, same schema.
+
+Example: Book belongs to one Author
+You populate the author in the book.
+
+Book.findById(id).populate("author");
+
+🧩 4. MANY-TO-MANY (M:M)
+Example: Students ↔ Courses
+Schemas
+// Student.js
+const studentSchema = new mongoose.Schema({
+  name: String,
+  courses: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }]
+});
+
+// Course.js
+const courseSchema = new mongoose.Schema({
+  title: String,
+  students: [{ type: mongoose.Schema.Types.ObjectId, ref: "Student" }]
+});
+
+Query
+Student.findById(id).populate("courses");
+Course.findById(id).populate("students");
+
+🧩 5. ONE-TO-MANY (Embedded Subdocuments)
+Example: Order ↔ Items
+Schema
+// Order.js
+const orderSchema = new mongoose.Schema({
+  userId: String,
+  items: [
+    {
+      productId: String,
+      qty: Number,
+      price: Number
+    }
+  ]
+});
+
+Query
+Order.findById(orderId);
+
+
+(No populate needed since embedded.)
+
+🧩 6. ONE-TO-ONE (Embedded)
+Example: User ↔ Settings
+Schema
+// User.js
+const userSchema = new mongoose.Schema({
+  name: String,
+  settings: {
+    theme: String,
+    notifications: Boolean
+  }
+});
+
+Query
+User.findById(id);
+
+🧩 7. POLYMORPHIC RELATIONSHIP
+Example: Likes (Post / Comment / Photo)
+Schemas
+// Like.js
+const likeSchema = new mongoose.Schema({
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  likeableId: { type: mongoose.Schema.Types.ObjectId },
+  likeableType: { type: String, enum: ["Post", "Comment", "Photo"] }
+});
+
+
+You dynamically populate:
+
+if (like.likeableType === "Post") 
+   await like.populate({ path: "likeableId", model: "Post" });
+
+🧩 8. SELF-REFERENTIAL RELATION (Same Schema Reference)
+Example: Employee ↔ Manager
+Schema
+// Employee.js
+const employeeSchema = new mongoose.Schema({
+  name: String,
+  manager: { type: mongoose.Schema.Types.ObjectId, ref: "Employee" }
+});
+
+module.exports = mongoose.model("Employee", employeeSchema);
+
+Query
+Employee.findById(id).populate("manager");
+
+🧩 9. MANY-TO-MANY WITH EXTRA FIELDS (JOIN COLLECTION)
+Example: Student ↔ Course + (grade, semester)
+Schemas
+// Enrollment.js  (joining table)
+const enrollmentSchema = new mongoose.Schema({
+  student: { type: mongoose.Schema.Types.ObjectId, ref: "Student" },
+  course: { type: mongoose.Schema.Types.ObjectId, ref: "Course" },
+  grade: String,
+  semester: String
+});
+
+module.exports = mongoose.model("Enrollment", enrollmentSchema);
+
+Query
+Enrollment.find()
+  .populate("student")
+  .populate("course");
+
+🧩 10. VIRTUAL POPULATE (Reverse Relational Query)
+Example: Author → Books (Author does NOT store books[] in schema)
+Schemas
+// Author.js
+const authorSchema = new mongoose.Schema({
+  name: String
+});
+
+// link Book.author -> Author._id
+authorSchema.virtual("books", {
+  ref: "Book",
+  localField: "_id",
+  foreignField: "author"
+});
+
+// Book.js
+const bookSchema = new mongoose.Schema({
+  title: String,
+  author: { type: mongoose.Schema.Types.ObjectId, ref: "Author" }
+});
+
+Query
+Author.findById(id).populate("books");
+
+🧨 FINAL SUMMARY (All Relationships in 1 Table)
+Relationship	Schema Example	Populate?
+1:1 Ref	User → Profile	Yes
+1:M	Author → Books	Yes
+M:M	Students ↔ Courses	Yes
+1:M Embedded	Order → Items	No
+1:1 Embedded	User → Settings	No
+Polymorphic	Like Post/Comment	Conditional
+Self-Referential	Employee → Manager	Yes
+M:M with join	Enrollment	Yes
+Virtual Populate	Reverse lookup	Yes
+🎁 If you want next:
+I can give:
+
+📌 Full Express APIs for each relation
+📌 UML/LLD diagram
+📌 Folder structure (MVC / Service layer)
+📌 Best practices + which relation to use in which real-life project

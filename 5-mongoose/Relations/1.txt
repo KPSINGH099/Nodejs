@@ -1,0 +1,102 @@
+1. Problem Statement (Example Domain)
+
+We design a Library Management System with:
+
+Book
+
+Author
+
+Relations:
+
+One Author → Many Books
+
+Each Book → Belongs to one Author
+
+
+***********************************************************
+
+Author
+Field	Type	Description
+id	ObjectId	Unique Identifier
+name	String	Author's name
+bio	String	Small description
+books	[ObjectId]	All books written by this author
+
+
+**********************************************************
+Book
+Field	Type	Description
+id	ObjectId	Unique Identifier
+title	String	Name of book
+genre	String	Book category
+author	ObjectId	Reference to Author
+
+*****************************************************************
+
+Relation
+
+Author (1) ↔ (M) Book
+
+In Book schema → author: { type: ObjectId, ref: "Author" }
+
+In Author schema → books: [{ type: ObjectId, ref: "Book" }] (optional)
+
+
+***************************************************************
+| API          | Method | Description                    |
+| ------------ | ------ | ------------------------------ |
+| /authors     | POST   | Create author                  |
+| /authors/:id | GET    | Get author + their books       |
+| /books       | POST   | Create book for author         |
+| /books/:id   | GET    | Get book with author populated |
+
+*****************************************************************************
+
+Auto Update Relation Logic
+
+When a book is created, we want:
+
+A Book document created with author: authorId
+
+Automatically push the book ID to the author's books array
+
+This happens inside the Book controller.
+
+
+***********************************************
+What does .populate("author") do?
+
+Your Book document stores the author like this:
+
+{
+  "_id": "book123",
+  "title": "Clean Code",
+  "genre": "Programming",
+  "author": "author123"   // <- Only ObjectId stored
+}
+
+
+This author: "author123" is only an ID, not the full author details.
+
+👉 populate("author") replaces this ID with the full Author document.
+
+So after running:
+
+await Book.findById(req.params.id).populate("author")
+
+
+You get:
+
+{
+  "_id": "book123",
+  "title": "Clean Code",
+  "genre": "Programming",
+  "author": {
+    "_id": "author123",
+    "name": "Robert Martin",
+    "bio": "Uncle Bob",
+    "books": ["book123"]
+  }
+}
+
+📌 In simple words:

@@ -1,0 +1,14 @@
+1 Mongoose schema need to be created 
+
+2 schema== data type 
+   validation (string number)
+
+3 user can define validation as well
+
+4Schema is wrapped with model object
+
+5 . each crud function returns moongoose query object
+
+6. use of schema is recommended
+
+7.

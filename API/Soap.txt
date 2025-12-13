@@ -1,0 +1,50 @@
+What is SOAP?
+
+SOAP (Simple Object Access Protocol) is a messaging protocol used for exchanging structured information between applications over a network.
+
+
+
+What problem SOAP solves
+
+SOAP was designed to allow different systems, written in different languages, running on different platforms, to communicate reliably and securely.
+
+Example:
+
+Java backend ↔ .NET service
+
+SAP ↔ Oracle
+
+Legacy banking systems ↔ modern apps
+
+
+2--->
+SOAP message structure (fixed format)
+
+Every SOAP message is XML-based and has a strict structure:
+
+SOAP Envelope
+ ├── Header (optional)
+ └── Body (mandatory)
+
+
+ How SOAP works (step-by-step)
+
+Client creates SOAP XML message
+
+Sends it (usually via HTTP POST)
+
+Server parses XML
+
+Executes requested operation
+
+Sends SOAP XML response
+
+📌 SOAP can work over:
+
+HTTP
+
+HTTPS
+
+SMTP
+
+TCP

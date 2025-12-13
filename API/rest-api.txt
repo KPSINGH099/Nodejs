@@ -1,0 +1,142 @@
+REST stands for Representational State Transfer
+
+-->
+It is an architectural style for designing APIs.
+
+Not a framework or protocol.
+
+📌 Example
+Designing URLs and HTTP methods in a standard way.
+
+
+-->set of constraint 
+
+1)REST is about resources
+
+Examples:
+
+User
+
+Order
+
+Product
+
+Payment
+
+Blog post
+
+Each resource is identified by a URL:
+
+/users
+/users/10
+/orders/202
+
+The API exposes resources, not actions.
+
+
+2).JSON is just a representation
+
+REST says:
+
+A resource can have multiple representations
+
+Common representations:
+
+JSON ✅ (most common)
+
+XML
+
+HTML
+
+Plain text
+
+YAML
+
+
+4).
+Core principles of REST (VERY IMPORTANT)
+1️⃣ Client–Server separation
+
+Client and server are independent
+
+Frontend doesn’t care how DB works
+
+Backend doesn’t care how UI is built
+
+👉 Enables scalability and independent development
+
+
+2️⃣ Statelessness (MOST IMPORTANT)
+
+Each request must contain all information needed.
+
+❌ Server should not remember client state
+✅ Every request is independent
+
+Example:
+
+GET /orders
+Authorization: Bearer <token>
+
+3️⃣ Uniform Interface
+
+Proper HTTP methods
+
+GET → read
+
+POST → create
+
+PUT / PATCH → update
+
+DELETE → delete
+
+c) Standard HTTP status codes
+
+200 OK
+
+201 Created
+
+400 Bad Request
+
+401 Unauthorized
+
+404 Not Found
+
+500 Server Error
+
+4️⃣ Representation of state
+
+When client interacts with server:
+
+Client sends representation (JSON/XML)
+
+Server processes it
+
+Server returns a new representation
+
+Hence the name:
+Representational State Transfer
+
+
+5️⃣ Cacheability
+
+Responses should indicate if they are cacheable:
+
+Cache-Control: max-age=3600
+
+
+This improves performance.
+
+
+6️⃣ Layered system
+
+Client should not know:
+
+Whether it’s talking to cache
+
+Load balancer
+
+API gateway
+
+Microservice
+

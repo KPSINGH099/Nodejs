@@ -1,0 +1,47 @@
+API
+
+
+what is api?
+
+Application Programming Interface 
+
+->enables communination between softwares
+
+->communination needed to use one another functionality 
+
+->we do not need to expose our code and data to third party Application
+instead we provide api which enables to acess our features/data
+
+-->third party application can not make change to codebase which makes application secure
+
+-->API acts as a contract between systems
+
+It defines what is available, how to access it, and what data format to use.
+
+-->
+API hides internal implementation details
+
+The client does not need to know:
+
+How data is stored
+
+Which language is used
+
+How business logic works
+
+
+-->API defines inputs and outputs
+
+Input → request parameters / payload
+
+Output → response data
+
+-->API can be local or remote
+
+Local API: File system API, OS API
+
+Remote API: Web APIs (HTTP/REST/SOAP)
+
+Web Services 
+
+--api with internet

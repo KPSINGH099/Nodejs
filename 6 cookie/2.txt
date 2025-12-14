@@ -1,0 +1,24 @@
+app.use(cookieParser()); ---
+
+Express does NOT parse cookies automatically.
+
+console.log(req.headers.cookie);
+
+--cookie will be print if it is already Threaded
+
+
+❌ You get raw string, not usable easily.
+
+
+What cookie-parser actually does internally
+1️⃣ Reads raw cookie header
+req.headers.cookie
+
+2️⃣ Parses it into key-value pairs
+{
+  token: "abc123",
+  theme: "dark"
+}
+
+3️⃣ Attaches it to req
+req.cookies

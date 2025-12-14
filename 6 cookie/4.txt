@@ -1,0 +1,21 @@
+update cookie
+ending a new Set-Cookie header with the same name + scope (domain, path)
+
+res.cookie("theme", "light", { maxAge: 60000 });
+
+res.cookie("theme", "dark", { maxAge: 60000 });
+
+updating cookie means updating its value and options except path
+
+in case if we are changing path 2 cookie will be available
+
+
+**************************
+
+delete cookie
+
+res.clearCookie("token");
+******************************
+
+
+while updating user profile we must update cookie and while logout we destroy it 

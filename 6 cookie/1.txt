@@ -1,0 +1,18 @@
+1 Request to POST /login
+
+user makes request we dont have cookie yet 
+
+although it is coming re.cookie is  empty array {}
+
+using res.cookie we can set cookie
+
+now it Adds an HTTP response header
+
+Set-Cookie: token=abc123; HttpOnly
+
+
+Browser will store it 
+
+
+2 . sends it automatically on next api callback
+we can read using req.cookie

@@ -1,0 +1,36 @@
+1.httpOnly
+
+Prevents JS access (document.cookie)
+
+if cookie has this option enable and we are 
+doing document.cookie in console terminal then it wont print 
+means js can not execute it
+
+
+2.secure: process.env.NODE_ENV === "production"
+secure :true 
+
+cookie header wont we stored if we are usinh http
+
+https it will be there 
+
+3.sameSite--strict lax none 
+
+Browsers automatically attach cookies to requests — even if the request comes from another website
+
+sameSite tells the browser:
+
+“When is it OK to attach this cookie
+
+strict-->❌ Cookie is NOT sent if request originates from another site
+
+
+4.path
+
+url path where cookie is sent
+
+by default its / 
+
+means cookie headers will be available on all path 
+
+but if we are setting a particular path it will be available there only;
